@@ -1,7 +1,7 @@
-const displayResult = document.querySelector(".display__prompt--result")
-const displayCurrent = document.querySelector(".display__prompt--current")
-let accum =function(a){return a};
-listenButtons()
+const displayResult = document.querySelector(".display__prompt--result");
+const displayCurrent = document.querySelector(".display__prompt--current");
+let accum = function(a){return a}
+listenButtons();
 
 function listenButtons() {
     const buttons = document.querySelectorAll(".btn")
@@ -14,7 +14,7 @@ function buttonPress(e) {
         manageDisplay("both", "clear")
         accum = function(a){return a};
     } else if (input == "C") {manageDisplay("lower", "delete");
-    } else if (/[0-9]/.test(input)) {
+    } else if (/[0-9.]/.test(input)) {
         if(manageDisplay("lower", "retrieve") == "0"){manageDisplay("lower", "delete")}
         manageDisplay("lower", "add", input)
     } else if (/[=\-\+/x]/.test(input)) {operate(e)}
@@ -25,35 +25,34 @@ function operate(e) {
     let input = parseFloat((manageDisplay("lower", "retrieve")));
     console.log(input)
     let value = accum(input)
-    manageDisplay("lower", "replace", "0")
-    manageDisplay("upper", "replace", value)
     switch (operator) {
         case "+":
-            accum = function(a) {return add(value, a)};
+            accum = function(a) {return add(value, a);}
             break;
         case "-":
-            accum = function(a) {return substract(value, a)};
+            accum = function(a) {return substract(value, a);}
             break;
         case "x":
-            accum = function(a) {return multiply(value, a)};
+            accum = function(a) {return multiply(value, a);}
             break;
         case "/":
-            accum = function(a) {return divide(value, a)};
+            accum = function(a) {return divide(value, a);}
             break;
         case "=":
             break;
-}}
+        }
+    manageDisplay("lower", "replace", "0")
+    manageDisplay("upper", "replace", `${value} ${operator}`)
+    }
 
 function manageDisplay(location, operation, content) {
     if (location == "upper") {
-        if (operation == "replace") {displayResult.textContent = content}
-        if (operation == "retrieve") {return displayResult.textContent}
+        if (operation == "replace") {displayResult.textContent = content;}
     } else if (location == "lower"){
-        if (operation == "delete") {displayCurrent.textContent = displayCurrent.textContent.slice(0, -1)}
-        if (operation == "add") {displayCurrent.textContent += content}
-        if (operation == "retrieve") {return displayCurrent.textContent}
-        if (operation == "clear") {displayCurrent.textContent = ""}
-        if (operation == "replace") {displayCurrent.textContent = content}
+        if (operation == "delete") {displayCurrent.textContent = displayCurrent.textContent.slice(0, -1);}
+        if (operation == "add") {displayCurrent.textContent += content;}
+        if (operation == "retrieve") {return displayCurrent.textContent;}
+        if (operation == "replace") {displayCurrent.textContent = content;}
     } else if (location == "both" && operation == "clear"){
         displayResult.textContent = "0";
         displayCurrent.textContent = "0";
