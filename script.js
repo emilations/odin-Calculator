@@ -15,14 +15,16 @@ function buttonPress(e) {
         accum = function(a){return a};
     } else if (input == "C") {manageDisplay("lower", "delete");
     } else if (/[0-9.]/.test(input)) {
-        if(manageDisplay("lower", "retrieve") == "0"){manageDisplay("lower", "delete")}
+        if(displayCurrent.textContent == "0") {
+            manageDisplay("lower", "delete")
+        }
         manageDisplay("lower", "add", input)
     } else if (/[=\-\+/x]/.test(input)) {operate(e)}
 }
 
 function operate(e) {
     let operator = e.target.innerText;
-    let input = parseFloat((manageDisplay("lower", "retrieve")));
+    let input = parseFloat(displayCurrent.textContent);
     console.log(input)
     let value = accum(input)
     switch (operator) {
@@ -43,7 +45,7 @@ function operate(e) {
         }
     manageDisplay("lower", "replace", "0")
     manageDisplay("upper", "replace", `${value} ${operator}`)
-    }
+}
 
 function manageDisplay(location, operation, content) {
     if (location == "upper") {
@@ -51,7 +53,6 @@ function manageDisplay(location, operation, content) {
     } else if (location == "lower"){
         if (operation == "delete") {displayCurrent.textContent = displayCurrent.textContent.slice(0, -1);}
         if (operation == "add") {displayCurrent.textContent += content;}
-        if (operation == "retrieve") {return displayCurrent.textContent;}
         if (operation == "replace") {displayCurrent.textContent = content;}
     } else if (location == "both" && operation == "clear"){
         displayResult.textContent = "0";
