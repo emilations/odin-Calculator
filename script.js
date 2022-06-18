@@ -10,8 +10,8 @@ let display = {
     displayUpper: document.querySelector(".display__prompt--result"),
     displayLower: document.querySelector(".display__prompt--current"),
     update: function () {
-    this.displayLower.textContent = memory.currentNumber;
-    this.displayUpper.textContent = `${memory.previousNumber} ${memory.storedOperator}`;
+        this.displayLower.textContent = memory.currentNumber;
+        this.displayUpper.textContent = `${memory.previousNumber} ${memory.storedOperator}`;
     }
 }
 
@@ -45,19 +45,18 @@ function buttonPress(e, memory) {
         memory.currentNumber += input;
     // if an operator is selector
     } else if (/[=\-\+/x]/.test(input)) {
-        if ((memory.currentNumber == "" && memory.previousNumber == "") || 
-            (memory.currentNumber !== "" && memory.previousNumber !== "" && memory.storedOperator == "=")) {
-            // Do nothing
-        } else if (memory.currentNumber == "" && memory.previousNumber !== "") {
-            memory.storedOperator = input;
-        } else if (memory.previousNumber == "") {
-            memory.previousNumber = memory.currentNumber;
-            memory.storedOperator = input;
-            memory.currentNumber = "";
-        } else {
-            memory.previousNumber = operate(parseFloat(memory.previousNumber), parseFloat(memory.currentNumber), memory.storedOperator)
-            memory.storedOperator = input;
-            memory.currentNumber = "";
+        if (!((memory.currentNumber == "" && memory.previousNumber == "") || (memory.currentNumber !== "" && memory.previousNumber !== "" && memory.storedOperator == "="))) {
+            if (memory.currentNumber == "" && memory.previousNumber !== "") {
+                memory.storedOperator = input;
+            } else if (memory.previousNumber == "") {
+                memory.previousNumber = memory.currentNumber;
+                memory.storedOperator = input;
+                memory.currentNumber = "";
+            } else {
+                memory.previousNumber = operate(parseFloat(memory.previousNumber), parseFloat(memory.currentNumber), memory.storedOperator)
+                memory.storedOperator = input;
+                memory.currentNumber = "";
+            }
         }
     }
     display.update()
